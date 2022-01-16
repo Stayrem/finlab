@@ -1,7 +1,7 @@
+// eslint-disable-next-line no-shadow,no-unused-vars
 enum PathDict {
-  'root' = '/',
-  'statistics' = '/statistics',
-  'incomes' = '/incomes'
+  root = '/',
+  transactions = '/transactions',
 }
 
 export default PathDict;

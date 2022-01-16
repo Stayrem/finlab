@@ -1,19 +1,14 @@
 import * as React from 'react';
-import Statistics from '../pages/Statistics';
 import AppPaths from './pathDict';
-import Incomes from '../pages/Incomes';
+import Transactions from '../pages/Transactions';
 
 const routes: Array<{
   path: string;
-  component: React.Component;
+  component: React.FunctionComponent;
 }> = [
   {
-    path: AppPaths.statistics,
-    component: Statistics,
-  },
-  {
-    path: AppPaths.incomes,
-    component: Incomes,
+    path: AppPaths.transactions,
+    component: Transactions,
   },
 ];
 export default routes;

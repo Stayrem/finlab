@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "name": "Такси",
+      "category": "taxi",
+      "sum": 300,
+      "tags": ["red", "green"]
+    },
+    {
+      "name": "Продукты",
+      "category": "products",
+      "sum": 3500,
+      "tags": ["red", "yellow"]
+    },
+    {
+      "name": "DLC Destiny 2",
+      "category": "videoGames",
+      "sum": 4000,
+      "tags": ["red", "yellow"]
+    }
+  ]
+}

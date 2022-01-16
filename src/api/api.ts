@@ -2,13 +2,16 @@
 
 import axios, { AxiosResponse } from 'axios';
 import apiDict from './apiDict';
-import { IncomeItemType } from '../features/incomes/incomesSlice';
+import { ITransactionItem } from '../features/transactions/transactionsSlice';
 
 const axiosInstance = axios.create({
-  baseURL: 'localhost:9000',
   timeout: 1000,
 });
 
-type IncomesType = Array<IncomeItemType>
+interface ITransactionResponse {
+  data: Array<ITransactionItem>;
+}
 
-export const fetchIncomes = async (): Promise<AxiosResponse<IncomesType>> => await axiosInstance.get(apiDict.incomes);
+export const fetchTransactions = async () => axios
+  .get<ITransactionResponse>(apiDict.transactions)
+  .then((res) => res.data.data);

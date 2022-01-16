@@ -29,10 +29,29 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/,
+        exclude: /node_modules/,
         use: [
           MiniCss.loader,
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.(scss|css)$/,
+        include: /node_modules/,
+        use: [
+          {
+            loader: MiniCss.loader,
+          },
+          {
+            loader: 'css-loader',
+          },
         ],
       },
       {

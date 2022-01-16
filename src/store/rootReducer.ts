@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import incomesSlice from '../features/incomes/incomesSlice';
+import transactionsSlice from '../features/transactions/transactionsSlice';
 
-const rootReducer = combineReducers({ incomes: incomesSlice });
+const rootReducer = combineReducers({ transactions: transactionsSlice });
 
 export default rootReducer;

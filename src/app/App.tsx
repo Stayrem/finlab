@@ -10,7 +10,6 @@ import {
 import routes from './routes';
 import pathDict from './pathDict';
 import Navigation from '../layout/Navigation/Navigation';
-import AppContext from '../context/Context';
 
 const { Header, Content, Footer } = Layout;
 
@@ -26,7 +25,7 @@ const App = () => (
               <Route exact key={route.path} path={route.path} component={route.component} />
             ))}
             <Route path={pathDict.root}>
-              <Redirect to={pathDict.statistics} />
+              <Redirect to={pathDict.transactions} />
             </Route>
           </Switch>
         </Content>
