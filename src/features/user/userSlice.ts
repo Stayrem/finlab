@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchLogin } from '../../api/api';
+import { fetchCheckUser, fetchLogin } from '../../api/api';
 import { LoadingStatus } from '../../app/enums';
 
 interface IUserStatus {
@@ -15,7 +15,7 @@ export interface IUserRequest {
 }
 
 const initialState: IUserStatus = {
-  loginStatus: LoadingStatus.NONE,
+  loginStatus: LoadingStatus.PENDING,
   userName: null,
 };
 
@@ -24,19 +24,31 @@ export const getToken = createAsyncThunk(
   async (userData: FormData) => fetchLogin(userData),
 );
 
+export const getUser = createAsyncThunk(
+  'getUser',
+  async () => fetchCheckUser(),
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getToken.fulfilled, (state: IUserStatus) => {
-      state.loginStatus = LoadingStatus.FULLFIELD;
+      state.loginStatus = LoadingStatus.FULFILLED;
     });
     builder.addCase(getToken.rejected, (state: IUserStatus) => {
-      state.loginStatus = LoadingStatus.FAILD;
+      state.loginStatus = LoadingStatus.FAILED;
     });
     builder.addCase(getToken.pending, (state: IUserStatus) => {
       state.loginStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(getUser.fulfilled, (state: IUserStatus, action) => {
+      state.userName = action.payload.user;
+      state.loginStatus = LoadingStatus.FULFILLED;
+    });
+    builder.addCase(getUser.rejected, (state: IUserStatus) => {
+      state.loginStatus = LoadingStatus.NONE;
     });
   },
 });

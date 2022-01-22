@@ -7,6 +7,9 @@ import store from './store/store';
 
 document.addEventListener('DOMContentLoaded', () => {
   const $root = document.getElementById('root');
+  $root.style.minHeight = '100vh';
+  $root.style.display = 'flex';
+  $root.style.flexDirection = 'column';
   const Main = () => (
     <React.StrictMode>
       <Provider store={store}>

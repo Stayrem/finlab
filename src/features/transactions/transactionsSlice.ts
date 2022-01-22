@@ -32,13 +32,13 @@ const transactionsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getTransactions.fulfilled, (state: ITransactions, action) => {
       state.data = action.payload;
-      state.status = LoadingStatus.FULLFIELD;
+      state.status = LoadingStatus.FULFILLED;
     });
     builder.addCase(getTransactions.pending, (state: ITransactions) => {
       state.status = LoadingStatus.PENDING;
     });
     builder.addCase(getTransactions.rejected, (state: ITransactions) => {
-      state.status = LoadingStatus.FAILD;
+      state.status = LoadingStatus.FAILED;
     });
   },
 });

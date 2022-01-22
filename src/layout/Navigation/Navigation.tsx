@@ -22,7 +22,7 @@ const navList = [
   },
 ];
 
-const getIsAuth = (state: RootState) => state.default.user.loginStatus === LoadingStatus.FULLFIELD;
+const getIsAuth = (state: RootState) => state.default.user.loginStatus === LoadingStatus.FULFILLED;
 
 const Navigation = () => {
   const isAuth = useSelector(getIsAuth);

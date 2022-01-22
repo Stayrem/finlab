@@ -19,7 +19,7 @@ const Transactions = () => {
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
-  if (status === LoadingStatus.FULLFIELD) {
+  if (status === LoadingStatus.FULFILLED) {
     return (
       <Row>
         <Col span={12}>
@@ -35,7 +35,7 @@ const Transactions = () => {
       </WithPageLoadingStatus>
     );
   }
-  if (status === LoadingStatus.FAILD) {
+  if (status === LoadingStatus.FAILED) {
     return (
       <WithPageLoadingStatus>
         <FetchError />
