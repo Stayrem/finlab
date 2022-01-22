@@ -4,10 +4,10 @@ import { LoadingStatus } from '../../app/enums';
 import { fetchTransactions } from '../../api/api';
 
 export interface ITransactionItem {
- name: string;
- sum: number;
- category: string;
- tags: string[];
+  transactionType: string;
+  value: number;
+  category: string;
+  tags: string[];
 }
 
 interface ITransactions {

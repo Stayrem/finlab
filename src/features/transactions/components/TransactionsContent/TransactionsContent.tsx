@@ -9,33 +9,16 @@ const { Search } = Input;
 
 const onSearch = (value) => console.log(value);
 
-const dataSource = [
-  {
-    key: '1',
-    name: 'Такси',
-    sum: 543,
-    category: 'Такси',
-    tags: ['green'],
-  },
-  {
-    key: '2',
-    name: 'Интернет',
-    sum: 390,
-    category: 'Такси',
-    tags: ['red', 'yellow'],
-  },
-];
-
 const columns = [
   {
     title: 'Название',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'transactionType',
+    key: 'transactionType',
   },
   {
     title: 'Сумма',
-    dataIndex: 'sum',
-    key: 'sum',
+    dataIndex: 'value',
+    key: 'value',
     render: (sum) => `${sum} руб.`,
   },
   {
