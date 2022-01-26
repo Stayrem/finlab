@@ -6,6 +6,7 @@ import { ITransactionItem } from '../features/transactions/transactionsSlice';
 import { getAccessToken, removeAccessToken, setAccessToken } from './utils';
 import { keysToCamel } from '../utils/utils';
 import pathDict from '../app/pathDict';
+import { IUserRequest } from '../features/user/userSlice';
 
 const axiosInstance = axios.create({
   baseURL: process.env.HOST,
@@ -47,6 +48,9 @@ export const fetchLogin = async (userData) => axiosInstance
   .post<IUserDataResponse>(apiDict.login, userData)
   .then((res) => keysToCamel(res.data))
   .then((res) => setAccessToken(res.accessToken));
+
+export const fetchAddUser = async (userData) => axiosInstance
+  .post<IUserRequest>(apiDict.addUser, userData);
 
 export const fetchCheckUser = async () => axiosInstance
   .get<IUserNameResponse>(apiDict.checkUser)

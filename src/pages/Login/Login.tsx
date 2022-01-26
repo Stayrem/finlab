@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import css from './Login.scss';
 import SignIn from '../../features/user/components/SignIn/SignIn';
 import SignUp from '../../features/user/components/SignUp/SignUp';
-import { getToken, IUserRequest } from '../../features/user/userSlice';
+import { addUser, getToken, IUserRequest } from '../../features/user/userSlice';
 
 type IFormType = 'SIGN_IN' | 'SIGN_UP';
 
@@ -45,7 +45,7 @@ const Login = () => {
           {formType === 'SIGN_IN' ? (
             <SignIn onFinish={onFinish} />
           ) : (
-            <SignUp onFinish={() => console.log('1')} />
+            <SignUp onFinish={addUser} onRegistrationComplete={() => changeFormType('SIGN_IN')} />
           )}
         </Col>
       </Row>

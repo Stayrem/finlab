@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,6 +17,7 @@ import { LoadingStatus } from './enums';
 import { getUser } from '../features/user/userSlice';
 import Spinner from '../components/Spinner/Spinner';
 import WithPageLoadingStatus from '../hocs/WithPageLoadingStatus/WithPageLoadingStatus';
+import { removeAccessToken } from '../api/utils';
 
 const { Header, Content, Footer } = Layout;
 
@@ -26,6 +27,11 @@ const PrivateRoute = ({ isAuth, ...rest }: { isAuth: boolean }) => (isAuth ? (
 // eslint-disable-next-line react/jsx-props-no-spreading
   <Route {...rest} />
 ) : <Redirect to={pathDict.login} />);
+
+const makeLogout = () => {
+  removeAccessToken();
+  window.location.reload();
+};
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,7 +52,11 @@ const App = () => {
             <Layout style={{ minHeight: '100vh' }}>
               <Navigation />
               <Layout className="site-layout">
-                <Header className="site-layout-background" style={{ padding: 0 }} />
+                <Header className="site-layout-background" style={{ padding: 0, display: 'flex', alignItems: 'center' }}>
+                  {authStatus === LoadingStatus.FULFILLED && (
+                    <Button onClick={makeLogout} type="link" style={{ marginLeft: 'auto' }}>Выйти</Button>
+                  )}
+                </Header>
                 <Content style={{ margin: '0 16px' }}>
                   <Switch>
                     {privateRoutes.map((r) => (

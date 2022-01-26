@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchCheckUser, fetchLogin } from '../../api/api';
+import { fetchAddUser, fetchCheckUser, fetchLogin } from '../../api/api';
 import { LoadingStatus } from '../../app/enums';
 
 interface IUserStatus {
   loginStatus: LoadingStatus;
+  registrationStatus: LoadingStatus;
   userName: string | null;
 }
 
@@ -16,6 +17,7 @@ export interface IUserRequest {
 
 const initialState: IUserStatus = {
   loginStatus: LoadingStatus.PENDING,
+  registrationStatus: LoadingStatus.NONE,
   userName: null,
 };
 
@@ -29,10 +31,19 @@ export const getUser = createAsyncThunk(
   async () => fetchCheckUser(),
 );
 
+export const addUser = createAsyncThunk(
+  'addUser',
+  async () => fetchAddUser(),
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setRegistrationStateToDefault(state: IUserStatus) {
+      state.registrationStatus = LoadingStatus.NONE;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getToken.fulfilled, (state: IUserStatus) => {
       state.loginStatus = LoadingStatus.FULFILLED;
@@ -50,7 +61,17 @@ const userSlice = createSlice({
     builder.addCase(getUser.rejected, (state: IUserStatus) => {
       state.loginStatus = LoadingStatus.NONE;
     });
+    builder.addCase(addUser.pending, (state: IUserStatus) => {
+      state.registrationStatus = LoadingStatus.PENDING;
+    });
+    builder.addCase(addUser.fulfilled, (state: IUserStatus) => {
+      state.registrationStatus = LoadingStatus.FULFILLED;
+    });
+    builder.addCase(addUser.rejected, (state: IUserStatus) => {
+      state.registrationStatus = LoadingStatus.FAILED;
+    });
   },
 });
+export const { setRegistrationStateToDefault } = userSlice.actions;
 
 export default userSlice.reducer;
