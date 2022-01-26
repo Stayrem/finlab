@@ -5,6 +5,7 @@ import apiDict from './apiDict';
 import { ITransactionItem } from '../features/transactions/transactionsSlice';
 import { getAccessToken, removeAccessToken, setAccessToken } from './utils';
 import { keysToCamel } from '../utils/utils';
+import pathDict from '../app/pathDict';
 
 const axiosInstance = axios.create({
   baseURL: process.env.HOST,
@@ -14,7 +15,7 @@ axiosInstance.interceptors.request.use((config) => ({ ...config, headers: { auth
 axiosInstance.interceptors.response.use((response) => response, (error) => {
   if (error.response.status === 401) {
     removeAccessToken();
-    window.history.pushState('', '', '/login');
+    window.history.pushState('', '', `/app${pathDict.login}`);
   }
   return error;
 });

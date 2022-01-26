@@ -11,10 +11,6 @@ const routes: Array<{
     path: AppPaths.transactions,
     component: Transactions,
   },
-  {
-    path: AppPaths.login,
-    component: Login,
-  },
 ];
 export const privateRoutes: Array<{
   path: string;

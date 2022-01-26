@@ -42,7 +42,7 @@ const App = () => {
           </WithPageLoadingStatus>
         )
         : (
-          <Router>
+          <Router basename="/app">
             <Layout style={{ minHeight: '100vh' }}>
               <Navigation />
               <Layout className="site-layout">

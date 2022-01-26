@@ -24,7 +24,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'static/js/bundle.js',
     publicPath: '/',
   },
   devtool: 'source-map',
@@ -81,7 +81,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new MiniCss({
-      filename: 'style.css',
+      filename: 'static/css/style.css',
     }),
     new Dotenv({
       path: dotEnvFile,
