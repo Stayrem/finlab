@@ -30,9 +30,9 @@ const columns = [
     title: 'Тэги',
     dataIndex: 'tags',
     key: 'tags',
-    render: (tags) => (
+    render: (tags: string[] | null) => (
       <>
-        {tags.map((tag) => (
+        {tags !== null && tags.map((tag) => (
           <Tag color={tag} key={tag}>
             {tag}
           </Tag>
