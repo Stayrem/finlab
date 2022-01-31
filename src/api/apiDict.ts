@@ -1,7 +1,7 @@
 export default {
   transactions: '/transaction',
   login: '/token',
-  addUser: '/addUser',
+  addUser: '/add_user',
   checkUser: '/check',
   incomes: '/static/transactions.json',
 };
