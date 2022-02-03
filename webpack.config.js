@@ -24,7 +24,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'static/js/bundle.js',
+    filename: 'static/js/bundle.[contenthash].js',
     publicPath: '/',
   },
   devtool: 'source-map',
@@ -77,11 +77,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Web App',
       template: path.resolve(__dirname, './src/template/index.html'),
-      filename: 'index.html',
+      filename: 'templates/index.html',
     }),
     new CleanWebpackPlugin(),
     new MiniCss({
-      filename: 'static/css/style.css',
+      filename: 'static/css/style.[contenthash].css',
     }),
     new Dotenv({
       path: dotEnvFile,
