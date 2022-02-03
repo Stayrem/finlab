@@ -61,10 +61,12 @@ const TransactionForm = () => {
           style={{ flexGrow: 1 }}
           label="Сумма"
           name="value"
-          type="number"
           rules={[{ required: true }]}
         >
-          <Input placeholder="300" />
+          <Input
+            placeholder="300"
+            type="number"
+          />
         </Form.Item>
       </div>
       <div style={{ display: 'flex', gap: '10px' }}>
