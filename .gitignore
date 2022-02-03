@@ -59,7 +59,9 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+.env.amazon
+.env.home
+.env.example
 
 # Other
 **/.DS_Store
