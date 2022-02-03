@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Form, Input, Tag, Button, Select,
 } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTransaction, getTransactions, resetAddStatus } from '../../transactionsSlice';
+import { RootState } from '../../../../store/store';
+import { LoadingStatus } from '../../../../app/enums';
 
 const { Option } = Select;
 
 const categoriesList = ['Продукты', 'Личный транспорт', 'Общественный транпорт', 'Такси', 'Кафе, Рестораны', 'Одежда'];
 const TransactionForm = () => {
-  const onFinish = (values: any) => values;
-
+  const dispatch = useDispatch();
+  const addStatus = useSelector((state: RootState) => state.default.transactions.addStatus);
   const options = [{ value: 'red' }, { value: 'green' }, { value: 'yellow' }, { value: 'cyan' }];
 
+  useEffect(() => {
+    if (addStatus === LoadingStatus.FULFILLED) {
+      dispatch(getTransactions());
+      dispatch(resetAddStatus());
+    }
+  }, [addStatus]);
   const tagRender = (tagProps: { label: any; value: any; onClose: any; }) => {
     const {
       label, value, onClose,
@@ -35,14 +45,14 @@ const TransactionForm = () => {
   return (
     <Form
       layout="vertical"
-      onFinish={onFinish}
+      onFinish={(values) => dispatch(addTransaction(values))}
       autoComplete="off"
     >
       <div style={{ display: 'flex', gap: '10px' }}>
         <Form.Item
           label="Название"
-          name="title"
-          required
+          name="name"
+          rules={[{ required: true }]}
           style={{ width: '50%' }}
         >
           <Input placeholder="Введите название траты" />
@@ -50,8 +60,9 @@ const TransactionForm = () => {
         <Form.Item
           style={{ flexGrow: 1 }}
           label="Сумма"
-          name="sum"
-          required
+          name="value"
+          type="number"
+          rules={[{ required: true }]}
         >
           <Input placeholder="300" />
         </Form.Item>
@@ -59,8 +70,8 @@ const TransactionForm = () => {
       <div style={{ display: 'flex', gap: '10px' }}>
         <Form.Item
           label="Категория"
-          name="categories"
-          required
+          name="category"
+          rules={[{ required: true }]}
           style={{ width: '50%' }}
         >
           <Select
@@ -76,7 +87,6 @@ const TransactionForm = () => {
           style={{ flexGrow: 1 }}
           label="Тэги"
           name="tags"
-          required
         >
           <Select
             mode="multiple"
@@ -89,7 +99,7 @@ const TransactionForm = () => {
         </Form.Item>
       </div>
       <Form.Item>
-        <Button type="primary" htmlType="submit">Отправить</Button>
+        <Button type="primary" htmlType="submit">Добавить</Button>
       </Form.Item>
     </Form>
   );

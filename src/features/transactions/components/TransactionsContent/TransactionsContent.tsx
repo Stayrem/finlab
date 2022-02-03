@@ -12,8 +12,8 @@ const onSearch = (value) => console.log(value);
 const columns = [
   {
     title: 'Название',
-    dataIndex: 'transactionType',
-    key: 'transactionType',
+    dataIndex: 'name',
+    key: 'name',
   },
   {
     title: 'Сумма',

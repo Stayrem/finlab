@@ -22,7 +22,7 @@ const Transactions = () => {
   if (status === LoadingStatus.FULFILLED) {
     return (
       <Row>
-        <Col span={12}>
+        <Col s={24} sm={24} md={18} lg={16} xl={12}>
           <TransactionsContent transactions={data} />
         </Col>
       </Row>

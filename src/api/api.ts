@@ -40,9 +40,8 @@ export const fetchTransactions = async () => axiosInstance
   .then((res) => keysToCamel(res.data))
   .then((res) => res.data);
 
-export const setTransaction = async () => axios
-  .post(apiDict.transactions)
-  .then((res) => res.data.data);
+export const fetchAddTransaction = async (transaction) => axiosInstance
+  .put(apiDict.transactions, transaction);
 
 export const fetchLogin = async (userData) => axiosInstance
   .post<IUserDataResponse>(apiDict.login, userData)
