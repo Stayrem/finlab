@@ -11,6 +11,7 @@ const { Option } = Select;
 
 const categoriesList = ['Продукты', 'Личный транспорт', 'Общественный транпорт', 'Такси', 'Кафе, Рестораны', 'Одежда'];
 const TransactionForm = () => {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const addStatus = useSelector((state: RootState) => state.default.transactions.addStatus);
   const options = [{ value: 'red' }, { value: 'green' }, { value: 'yellow' }, { value: 'cyan' }];
@@ -44,8 +45,12 @@ const TransactionForm = () => {
 
   return (
     <Form
+      form={form}
       layout="vertical"
-      onFinish={(values) => dispatch(addTransaction(values))}
+      onFinish={(values) => {
+        dispatch(addTransaction(values));
+        form.resetFields();
+      }}
       autoComplete="off"
     >
       <div style={{ display: 'flex', gap: '10px' }}>
