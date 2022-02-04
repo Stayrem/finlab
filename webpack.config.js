@@ -77,7 +77,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Web App',
       template: path.resolve(__dirname, './src/template/index.html'),
-      filename: 'templates/index.html',
+      filename: isDevelopment ? 'index.html' : 'templates/index.html',
     }),
     new CleanWebpackPlugin(),
     new MiniCss({

@@ -22,7 +22,11 @@ axiosInstance.interceptors.response.use((response) => response, (error) => {
 });
 
 interface ITransactionResponse {
-  data: Array<ITransactionItem>;
+  data: {
+    transactions: Array<ITransactionItem>,
+    current: number,
+    total: number,
+  };
 }
 
 export interface IUserDataResponse {
@@ -35,8 +39,8 @@ interface IUserNameResponse {
   data: { user: string },
 }
 
-export const fetchTransactions = async () => axiosInstance
-  .get<ITransactionResponse>(apiDict.transactions)
+export const fetchTransactions = async (page = 1) => axiosInstance
+  .get<ITransactionResponse>(`${apiDict.transactions}?page=${page}`)
   .then((res) => keysToCamel(res.data))
   .then((res) => res.data);
 

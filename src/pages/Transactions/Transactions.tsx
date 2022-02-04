@@ -14,35 +14,23 @@ const getTransactionsInfoFromStore = (store: RootState) => store.default.transac
 
 const Transactions = () => {
   const dispatch = useDispatch();
-  const transaction = useSelector(getTransactionsInfoFromStore);
-  const { data, status } = transaction;
+  const transactionsData = useSelector(getTransactionsInfoFromStore);
   useEffect(() => {
     dispatch(getTransactions());
   }, []);
-  if (status === LoadingStatus.FULFILLED) {
-    return (
-      <Row>
-        <Col s={24} sm={24} md={18} lg={16} xl={12}>
-          <TransactionsContent transactions={data} />
-        </Col>
-      </Row>
-    );
-  }
-  if (status === LoadingStatus.PENDING) {
-    return (
-      <WithPageLoadingStatus>
-        <Spinner />
-      </WithPageLoadingStatus>
-    );
-  }
-  if (status === LoadingStatus.FAILED) {
-    return (
+  return (
+    transactionsData.status === LoadingStatus.FAILED ? (
       <WithPageLoadingStatus>
         <FetchError />
       </WithPageLoadingStatus>
-    );
-  }
-  return null;
+    ) : (
+      <Row>
+        <Col s={24} sm={24} md={18} lg={16} xl={12}>
+          <TransactionsContent transactionsData={transactionsData} />
+        </Col>
+      </Row>
+    )
+  );
 };
 
 export default Transactions;

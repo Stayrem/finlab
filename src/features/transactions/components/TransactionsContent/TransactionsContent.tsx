@@ -1,11 +1,22 @@
 import React, { useMemo } from 'react';
 import {
-  Divider, Space, Input, Table, Tag,
+  Divider, Input, Space, Table, Tag,
 } from 'antd';
+import { useDispatch } from 'react-redux';
 import TransactionForm from '../TransactionsForm/TransactionsForm';
-import { ITransactionItem } from '../../transactionsSlice';
+import { getTransactions, ITransactionItem } from '../../transactionsSlice';
+import { LoadingStatus } from '../../../../app/enums';
 
 const { Search } = Input;
+
+interface ITransactionsDataProps {
+  transactionsData: {
+    data: ITransactionItem[],
+    status: LoadingStatus,
+    currentPage: number,
+    totalTransactions: number,
+  }
+}
 
 const onSearch = (value) => console.log(value);
 
@@ -42,10 +53,17 @@ const columns = [
   },
 ];
 
-const TransactionsContent = (props: { transactions: Array<ITransactionItem> }) => {
-  const { transactions } = props;
-  const transactionsDataSource = useMemo(() => transactions
-    .map((transaction, index) => ({ ...transaction, key: index + 1 })), [transactions.length]);
+const TransactionsContent: React.FC<ITransactionsDataProps> = (props) => {
+  const {
+    transactionsData: {
+      data,
+      status,
+      totalTransactions,
+    },
+  } = props;
+  const dispatch = useDispatch();
+  const transactionsDataSource = useMemo(() => data
+    .map((transaction, index) => ({ ...transaction, key: index + 1 })), [data.length]);
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
@@ -58,7 +76,18 @@ const TransactionsContent = (props: { transactions: Array<ITransactionItem> }) =
         size="large"
         onSearch={onSearch}
       />
-      <Table dataSource={transactionsDataSource} columns={columns} />
+      <Table
+        loading={status === LoadingStatus.PENDING}
+        dataSource={transactionsDataSource}
+        columns={columns}
+        pagination={{
+          pageSize: 10,
+          total: totalTransactions,
+          size: 'default',
+          onChange: (page) => dispatch(getTransactions(page)),
+        }}
+      />
+
     </Space>
   );
 };
