@@ -15,6 +15,7 @@ interface ITransactionsDataProps {
     status: LoadingStatus,
     currentPage: number,
     totalTransactions: number,
+    addStatus: LoadingStatus,
   }
 }
 
@@ -59,11 +60,14 @@ const TransactionsContent: React.FC<ITransactionsDataProps> = (props) => {
       data,
       status,
       totalTransactions,
+      currentPage,
+      addStatus,
     },
   } = props;
   const dispatch = useDispatch();
   const transactionsDataSource = useMemo(() => data
-    .map((transaction, index) => ({ ...transaction, key: index + 1 })), [data.length]);
+    .map((transaction, index) => (
+      { ...transaction, key: index + 1 })), [currentPage, totalTransactions]);
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
@@ -77,13 +81,14 @@ const TransactionsContent: React.FC<ITransactionsDataProps> = (props) => {
         onSearch={onSearch}
       />
       <Table
-        loading={status === LoadingStatus.PENDING}
+        loading={status === LoadingStatus.PENDING || addStatus === LoadingStatus.PENDING}
         dataSource={transactionsDataSource}
         columns={columns}
         pagination={{
           pageSize: 10,
           total: totalTransactions,
           size: 'default',
+          current: currentPage,
           onChange: (page) => dispatch(getTransactions(page)),
         }}
       />

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'antd';
 
-import Spinner from '../../components/Spinner/Spinner';
 import FetchError from '../../components/FetchError/FetchError';
 import { getTransactions } from '../../features/transactions/transactionsSlice';
 import TransactionsContent from '../../features/transactions/components/TransactionsContent/TransactionsContent';
@@ -16,8 +15,13 @@ const Transactions = () => {
   const dispatch = useDispatch();
   const transactionsData = useSelector(getTransactionsInfoFromStore);
   useEffect(() => {
-    dispatch(getTransactions());
+    dispatch(getTransactions(1));
   }, []);
+  useEffect(() => {
+    if (transactionsData.addStatus === LoadingStatus.FULFILLED) {
+      dispatch(getTransactions(1));
+    }
+  }, [transactionsData.addStatus]);
   return (
     transactionsData.status === LoadingStatus.FAILED ? (
       <WithPageLoadingStatus>
@@ -25,7 +29,7 @@ const Transactions = () => {
       </WithPageLoadingStatus>
     ) : (
       <Row>
-        <Col s={24} sm={24} md={18} lg={16} xl={12}>
+        <Col sm={24} md={18} lg={16} xl={12}>
           <TransactionsContent transactionsData={transactionsData} />
         </Col>
       </Row>
