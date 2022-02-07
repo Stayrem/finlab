@@ -6,8 +6,8 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux';
+import css from './App.scss';
 import { privateRoutes } from './routes';
 import pathDict from './pathDict';
 import Navigation from '../layout/Navigation/Navigation';
@@ -21,7 +21,7 @@ import { removeAccessToken } from '../api/utils';
 
 const { Header, Content, Footer } = Layout;
 
-const getUserAuthStatus = (state: RootState) => state.default.user.loginStatus;
+const getUserInfo = (state: RootState) => state.default.user;
 // eslint-disable-next-line react/destructuring-assignment
 const PrivateRoute = ({ isAuth, ...rest }: { isAuth: boolean }) => (isAuth ? (
 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -35,13 +35,14 @@ const makeLogout = () => {
 
 const App = () => {
   const dispatch = useDispatch();
-  const authStatus = useSelector(getUserAuthStatus);
+  const userInfo = useSelector(getUserInfo);
+  const { loginStatus, userName } = userInfo;
   useEffect(() => {
     dispatch(getUser());
   }, []);
   return (
     <>
-      {authStatus === LoadingStatus.PENDING
+      {loginStatus === LoadingStatus.PENDING
         ? (
           <WithPageLoadingStatus>
             <Spinner />
@@ -49,19 +50,22 @@ const App = () => {
         )
         : (
           <Router basename="/app">
-            <Layout style={{ minHeight: '100vh' }}>
+            <Layout className={css.layout}>
               <Navigation />
               <Layout className="site-layout">
                 <Header className="site-layout-background" style={{ padding: 0, display: 'flex', alignItems: 'center' }}>
-                  {authStatus === LoadingStatus.FULFILLED && (
-                    <Button onClick={makeLogout} type="link" style={{ marginLeft: 'auto' }}>Выйти</Button>
+                  {loginStatus === LoadingStatus.FULFILLED && (
+                    <div className={css.userInfo}>
+                      <strong className={css.userName}>{userName}</strong>
+                      <Button onClick={makeLogout} type="link">Выйти</Button>
+                    </div>
                   )}
                 </Header>
                 <Content style={{ margin: '0 16px' }}>
                   <Switch>
                     {privateRoutes.map((r) => (
                       <PrivateRoute
-                        isAuth={authStatus === LoadingStatus.FULFILLED}
+                        isAuth={loginStatus === LoadingStatus.FULFILLED}
                         exact
                         key={r.path}
                         path={r.path}
@@ -72,7 +76,7 @@ const App = () => {
                       <Redirect to={pathDict.transactions} />
                     </Route>
                     <Route path={pathDict.login} exact>
-                      {authStatus === LoadingStatus.FULFILLED ? <Redirect to={pathDict.root} />
+                      {loginStatus === LoadingStatus.FULFILLED ? <Redirect to={pathDict.root} />
                         : <Login />}
                     </Route>
                   </Switch>

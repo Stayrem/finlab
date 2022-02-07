@@ -71,7 +71,7 @@ const TransactionsContent: React.FC<ITransactionsDataProps> = (props) => {
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Divider orientation="left">Lorem Ipsum</Divider>
+      <Divider orientation="left">Транзакции</Divider>
       <TransactionForm />
       <Search
         placeholder="input search text"

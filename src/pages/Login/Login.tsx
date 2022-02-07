@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import css from './Login.scss';
@@ -24,6 +24,9 @@ const Login = () => {
     const payload = onSuccess(values);
     return dispatch(getToken(payload));
   };
+  useEffect(() => {
+    document.title = 'Web App | Авторизация';
+  }, []);
   return (
     <div className={css.wrapper}>
       <Row justify="center" align="middle">

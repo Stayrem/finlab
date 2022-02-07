@@ -15,6 +15,7 @@ const Transactions = () => {
   const dispatch = useDispatch();
   const transactionsData = useSelector(getTransactionsInfoFromStore);
   useEffect(() => {
+    document.title = 'Web App | Транзакции';
     dispatch(getTransactions(1));
   }, []);
   useEffect(() => {
