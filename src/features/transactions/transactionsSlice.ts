@@ -14,6 +14,7 @@ interface IAddTransaction {
   name: string;
   value: number;
   category: string;
+  timestamp: number;
   tags?: string[];
 }
 

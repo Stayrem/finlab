@@ -18,7 +18,7 @@ const TransactionForm = () => {
 
   useEffect(() => {
     if (addStatus === LoadingStatus.FULFILLED) {
-      dispatch(getTransactions());
+      dispatch(getTransactions(1));
       dispatch(resetAddStatus());
     }
   }, [addStatus]);
@@ -42,13 +42,12 @@ const TransactionForm = () => {
       </Tag>
     );
   };
-
   return (
     <Form
       form={form}
       layout="vertical"
       onFinish={(values) => {
-        dispatch(addTransaction(values));
+        dispatch(addTransaction({ ...values, timestamp: Date.now() }));
         form.resetFields();
       }}
       autoComplete="off"
